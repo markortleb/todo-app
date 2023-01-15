@@ -64,6 +64,14 @@ export default class UI {
                     <label for="signup-password">Password</label>
                     <input type="password" id="signup-password">
                 </div>
+                <div class="signup-line">
+                    <label for="signup-confirm-password">Confirm Password</label>
+                    <input type="password" id="signup-confirm-password">
+                </div>
+                <div class="signup-line">
+                    <label for="signup-your-name">Your Name</label>
+                    <input type="password" id="signup-your-name">
+                </div>
                 <div class="signup-buttons">
                     <button>Create Account</button>
                 </div>

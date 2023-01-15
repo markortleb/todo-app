@@ -9,12 +9,11 @@ export default class Controller {
     constructor() {
         UI.initImages();
 
-        UI.loadSignUpPage();
         // UI.loadLoginPage();
-        // UI.loadMainSkeleton();
-        //
-        // this.initAddTaskButton();
-        // this.initAddProjectButton();
+        // this.initLoginButton();
+        // this.initSignUpButton();
+
+        UI.loadMainSkeleton();
     }
 
     initAddTaskButton() {
@@ -114,8 +113,51 @@ export default class Controller {
             if (emailInputNode.value !== '' && passwordInputNode.value !== '') {
                 const emailInput = emailInputNode.value;
                 const passwordInput = passwordInputNode.value;
-                const account = new Account(emailInput, passwordInput);
 
+                UI.loadMainSkeleton();
+                this.initAddTaskButton();
+                this.initAddProjectButton();
+            }
+        })
+    }
+
+    initSignUpButton() {
+        const loginAreaNode = document.querySelectorAll('.login-area')[0];
+        const emailInputNode = loginAreaNode.querySelectorAll('.login-line #login-email')[0];
+        const passwordInputNode = loginAreaNode.querySelectorAll('.login-line #login-password')[0];
+        const loginButtonNode = loginAreaNode.querySelectorAll('.login-buttons button:first-of-type')[0];
+        const signUpButtonNode = loginAreaNode.querySelectorAll('.login-buttons button:last-of-type')[0];
+
+        signUpButtonNode.addEventListener('click', e => {
+            if (emailInputNode.value !== '' && passwordInputNode.value !== '') {
+                const emailInput = emailInputNode.value;
+                const passwordInput = passwordInputNode.value;
+
+                UI.loadSignUpPage();
+                this.initCreateAccountButton();
+            }
+        })
+    }
+
+    initCreateAccountButton() {
+        const signUpAreaNode = document.querySelectorAll('.signup-area')[0];
+        const emailInputNode = signUpAreaNode.querySelectorAll('.signup-line #signup-email')[0];
+        const passwordInputNode = signUpAreaNode.querySelectorAll('.signup-line #signup-password')[0];
+        const confirmPasswordInputNode = signUpAreaNode.querySelectorAll('.signup-line #signup-confirm-password')[0];
+        const yourNameInputNode = signUpAreaNode.querySelectorAll('.signup-line #signup-your-name')[0];
+        const createAccountButtonNode = signUpAreaNode.querySelectorAll('.signup-buttons button')[0];
+
+        createAccountButtonNode.addEventListener('click', e => {
+            if (emailInputNode.value !== '' && passwordInputNode.value !== '' &&
+                    passwordInputNode.value === confirmPasswordInputNode.value) {
+                const emailInput = emailInputNode.value;
+                const passwordInput = passwordInputNode.value;
+                const yourNameInput = yourNameInputNode.value;
+                const account = new Account(emailInput, passwordInput, yourNameInput);
+
+                UI.loadMainSkeleton();
+                this.initAddTaskButton();
+                this.initAddProjectButton();
             }
         })
     }
