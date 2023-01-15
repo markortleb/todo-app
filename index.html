@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="src/css/meyerweb_reset.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="topbar">
+            <div class="title">
+                <img src="note-with-paperclip-clip-art.svg" alt="">
+                <h1>To-do..</h1>
+            </div>
+        </div>
+        <div class="sidebar">
+            <ul>
+                <li class="all-projects">All Projects</li>
+                <li>Grocery List</li>
+                <li class="add-project">
+                    <img src="plus-circle-outline.png" alt="">
+                    <span>Add Project</span>
+                </li>
+            </ul>
+        </div>
+        <div class="content-area">
+            <div class="list-header">
+                <div class="title-area">
+                    <span>All Projects</span>
+                </div>
+                <div class="date-area">
+                    <span>Due Date</span>
+                    <span>▼</span>
+                </div>
+            </div>
+            <ul>
+                <li class="task">
+                    <div class="title-area">
+                        <input type="checkbox" id="item1">
+                        <label for="item1">Buy meat</label>
+                    </div>
+                    <div class="date-area">
+                        <span>2022-09-04</span>
+                    </div>
+                    <div class="control-area">
+                    </div>
+                </li>
+                <li class="task">
+                    <div class="title-area">
+                        <input type="checkbox" id="item2">
+                        <label for="item2">Buy veggies</label>
+                    </div>
+                    <div class="date-area">
+                        <span>2022-09-04</span>
+                    </div>
+                    <div class="control-area">
+                        <img src="application-edit-outline.png" alt="">
+                        <img src="trash-can-outline.png" alt="">
+                    </div>
+                </li>
+                <li class="task-edit-mode">
+                    <div class="edit-area">
+                        <div class="edit-top">
+                            <input type="text" class="task-title-input" placeholder="Task title..">
+                            <textarea class="task-description-input" placeholder="Task description.."></textarea>
+                        </div>
+                        <div class="edit-bottom">
+                            <input type="date" class="due-date-input">
+                            <input type="text" class="project-name-input" placeholder="Project name..">
+                        </div>
+                    </div>
+                    <div class="edit-control">
+                        <button>Submit</button>
+                        <button>Cancel</button>
+                    </div>
+                </li>
+                <li class="task">
+                    <div class="title-area">
+                        <input type="checkbox" id="item4">
+                        <label for="item4">Buy milk</label>
+                    </div>
+                    <div class="date-area">
+                        <span>2022-09-04</span>
+                    </div>
+                    <div class="control-area">
+                        <img src="application-edit-outline.png" alt="">
+                        <img src="trash-can-outline.png" alt="">
+                    </div>
+                </li>
+                <li class="add-task">
+                    <div class="add-button">
+                        <img src="plus-circle-outline.png" alt="">
+                        <span>Add Task</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

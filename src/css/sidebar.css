@@ -1,0 +1,61 @@
+.sidebar {
+    background-color: #B8C1C8;
+    grid-row: 2/3;
+    grid-column: 1/2;
+    padding: 1em;
+}
+
+.sidebar ol {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.sidebar .all-projects {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.sidebar .add-project {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.3em;
+
+}
+
+.sidebar .add-project img{
+    height: 1.2em;
+    filter: invert(55%) sepia(4%) saturate(17%) hue-rotate(321deg) brightness(97%) contrast(96%);
+}
+
+.sidebar .add-project span {
+    color: #636363;
+}
+
+
+.sidebar li:not(.all-projects) {
+    padding-left: 1em;
+}
+
+.sidebar .add-project-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+}
+
+
+.sidebar .add-project-input input{
+    background-color: #c5c8cb;
+    border-color: #b1b2b4;
+    border-width: 1px;
+    width: 80%;
+}
+
+.sidebar .add-project-input .add-project-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+}
