@@ -1,16 +1,20 @@
 import UI from './UI';
 import Task from './Task';
 import Project from "./Project";
+import Account from "./Account";
 
 
 export default class Controller {
 
     constructor() {
         UI.initImages();
-        UI.loadSkeleton();
 
-        this.initAddTaskButton();
-        this.initAddProjectButton();
+        UI.loadSignUpPage();
+        // UI.loadLoginPage();
+        // UI.loadMainSkeleton();
+        //
+        // this.initAddTaskButton();
+        // this.initAddProjectButton();
     }
 
     initAddTaskButton() {
@@ -97,5 +101,22 @@ export default class Controller {
             projectListNode.innerHTML += UI.addProjectLine();
             this.initAddProjectButton();
         });
+    }
+
+    initLoginButton() {
+        const loginAreaNode = document.querySelectorAll('.login-area')[0];
+        const emailInputNode = loginAreaNode.querySelectorAll('.login-line #login-email')[0];
+        const passwordInputNode = loginAreaNode.querySelectorAll('.login-line #login-password')[0];
+        const loginButtonNode = loginAreaNode.querySelectorAll('.login-buttons button:first-of-type')[0];
+        const signUpButtonNode = loginAreaNode.querySelectorAll('.login-buttons button:last-of-type')[0];
+
+        loginButtonNode.addEventListener('click', e => {
+            if (emailInputNode.value !== '' && passwordInputNode.value !== '') {
+                const emailInput = emailInputNode.value;
+                const passwordInput = passwordInputNode.value;
+                const account = new Account(emailInput, passwordInput);
+
+            }
+        })
     }
 }

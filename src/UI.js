@@ -23,16 +23,62 @@ export default class UI {
         this.#trashCanIconImg.src = TrashCanIconImg;
     }
 
-    static loadSkeleton() {
+    static loadLoginPage() {
+        document.body.innerHTML = `
+        <div class="login-container">
+            <div class="login-area">
+                <div class="login-title">
+                    <img src="${this.#logoImg.src}" alt="">
+                    <h1>To-do..</h1>
+                </div>
+                <div class="login-line">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email">
+                </div>
+                <div class="login-line">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password">
+                </div>
+                <div class="login-buttons">
+                    <button>Login</button>
+                    <button>Sign Up</button>
+                </div>
+            </div>
+        </div>
+        `
+    }
+
+    static loadSignUpPage() {
+        document.body.innerHTML = `
+        <div class="signup-container">
+            <div class="signup-area">
+                <div class="signup-title">
+                    <img src="${this.#logoImg.src}" alt="">
+                    <h1>To-do..</h1>
+                </div>
+                <div class="signup-line">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email">
+                </div>
+                <div class="signup-line">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password">
+                </div>
+                <div class="signup-buttons">
+                    <button>Create Account</button>
+                </div>
+            </div>
+        </div>
+        `
+    }
+
+    static loadMainSkeleton() {
         document.body.innerHTML = `
             <div class="container">
                 <div class="topbar">
                     <div class="title">
                         <img src="${this.#logoImg.src}" alt="">
                         <h1>To-do..</h1>
-                    </div>
-                    <div>
-                        
                     </div>
                 </div>
                 <div class="sidebar">
