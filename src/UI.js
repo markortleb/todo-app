@@ -48,7 +48,7 @@ export default class UI {
         `
     }
 
-    static loadSignUpPage() {
+    static loadSignUpPage(email, password) {
         document.body.innerHTML = `
         <div class="signup-container">
             <div class="signup-area">
@@ -58,11 +58,11 @@ export default class UI {
                 </div>
                 <div class="signup-line">
                     <label for="signup-email">Email</label>
-                    <input type="email" id="signup-email">
+                    <input type="email" id="signup-email" value="${email}">
                 </div>
                 <div class="signup-line">
                     <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password">
+                    <input type="password" id="signup-password" value="${password}">
                 </div>
                 <div class="signup-line">
                     <label for="signup-confirm-password">Confirm Password</label>
@@ -70,7 +70,7 @@ export default class UI {
                 </div>
                 <div class="signup-line">
                     <label for="signup-your-name">Your Name</label>
-                    <input type="password" id="signup-your-name">
+                    <input type="text" id="signup-your-name">
                 </div>
                 <div class="signup-buttons">
                     <button>Create Account</button>

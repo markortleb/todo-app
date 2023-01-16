@@ -143,13 +143,11 @@ export default class Controller {
         const signUpButtonNode = loginAreaNode.querySelectorAll('.login-buttons button:last-of-type')[0];
 
         signUpButtonNode.addEventListener('click', e => {
-            if (emailInputNode.value !== '' && passwordInputNode.value !== '') {
-                const emailInput = emailInputNode.value;
-                const passwordInput = passwordInputNode.value;
+            const emailInput = emailInputNode.value;
+            const passwordInput = passwordInputNode.value;
 
-                UI.loadSignUpPage();
-                this.initCreateAccountButton();
-            }
+            UI.loadSignUpPage(emailInput, passwordInput);
+            this.initCreateAccountButton();
         });
     }
 
