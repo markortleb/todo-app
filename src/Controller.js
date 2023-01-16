@@ -124,13 +124,9 @@ export default class Controller {
         const signUpButtonNode = loginAreaNode.querySelectorAll('.login-buttons button:last-of-type')[0];
 
         loginButtonNode.addEventListener('click', e => {
-            if (emailInputNode.value !== '' && passwordInputNode.value !== '') {
-                const emailInput = emailInputNode.value;
-                const passwordInput = passwordInputNode.value;
-
-                UI.loadMainSkeleton();
-                this.initAddTaskButton();
-                this.initAddProjectButton();
+            let account = Storage.getAccount(emailInputNode.value, passwordInputNode.value);
+            if (account) {
+                this.loadMainPage(account.name);
             }
         });
     }
@@ -169,9 +165,7 @@ export default class Controller {
 
                 Storage.putAccount(account);
 
-                UI.loadMainSkeleton(account.name);
-                this.initAddTaskButton();
-                this.initAddProjectButton();
+                this.loadMainPage(account.name);
             }
         });
     }
