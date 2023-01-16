@@ -80,13 +80,17 @@ export default class UI {
         `
     }
 
-    static loadMainSkeleton() {
+    static loadMainSkeleton(username) {
         document.body.innerHTML = `
             <div class="container">
                 <div class="topbar">
                     <div class="title">
                         <img src="${this.#logoImg.src}" alt="">
                         <h1>To-do..</h1>
+                    </div>
+                    <div class="account-info">                   
+                        <span>${username}</span>
+                        <button>Logout</button>
                     </div>
                 </div>
                 <div class="sidebar">

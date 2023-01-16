@@ -2,18 +2,32 @@ import UI from './UI';
 import Task from './Task';
 import Project from "./Project";
 import Account from "./Account";
+import Storage from "./Storage";
 
 
 export default class Controller {
 
     constructor() {
         UI.initImages();
+        this.loadLoginPage();
+    }
 
-        // UI.loadLoginPage();
-        // this.initLoginButton();
-        // this.initSignUpButton();
+    loadLoginPage() {
+        UI.loadLoginPage();
+        this.initLoginButton();
+        this.initSignUpButton();
+    }
 
-        UI.loadMainSkeleton();
+    loadSignUpPage() {
+        UI.loadSignUpPage();
+        this.initCreateAccountButton();
+    }
+
+    loadMainPage(username) {
+        UI.loadMainSkeleton(username);
+        this.initAddTaskButton();
+        this.initAddProjectButton();
+        this.initLogoutButton();
     }
 
     initAddTaskButton() {
@@ -118,7 +132,7 @@ export default class Controller {
                 this.initAddTaskButton();
                 this.initAddProjectButton();
             }
-        })
+        });
     }
 
     initSignUpButton() {
@@ -136,7 +150,7 @@ export default class Controller {
                 UI.loadSignUpPage();
                 this.initCreateAccountButton();
             }
-        })
+        });
     }
 
     initCreateAccountButton() {
@@ -155,10 +169,23 @@ export default class Controller {
                 const yourNameInput = yourNameInputNode.value;
                 const account = new Account(emailInput, passwordInput, yourNameInput);
 
-                UI.loadMainSkeleton();
+                Storage.putAccount(account);
+
+                UI.loadMainSkeleton(account.name);
                 this.initAddTaskButton();
                 this.initAddProjectButton();
             }
-        })
+        });
+    }
+
+    initLogoutButton() {
+        const accountInfoNode = document.querySelectorAll('.topbar .account-info')[0];
+        const logoutButtonNode = document.querySelectorAll('button')[0];
+
+        logoutButtonNode.addEventListener('click', e => {
+            UI.loadLoginPage();
+            this.initLoginButton();
+            this.initSignUpButton();
+        });
     }
 }
