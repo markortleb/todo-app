@@ -1,5 +1,6 @@
 import UI from './UI';
 import Task from './Task';
+import ProjectList from "./ProjectList";
 import Project from "./Project";
 import Account from "./Account";
 import Storage from "./Storage";
@@ -8,6 +9,8 @@ import Storage from "./Storage";
 export default class Controller {
 
     constructor() {
+        this.projectList = new ProjectList();
+
         UI.initImages();
         this.loadLoginPage();
     }
@@ -48,6 +51,8 @@ export default class Controller {
         const taskEditNode = taskListNode.querySelectorAll('.task-edit-mode')[0];
         const submitButtonNode = taskEditNode.querySelectorAll('.edit-control button:first-of-type')[0];
 
+        const projectListNode = document.querySelectorAll('.sidebar ol')[0];
+
         submitButtonNode.addEventListener('click', (e) => {
             const taskName = taskEditNode.querySelectorAll('.task-title-input')[0].value;
             const taskDescription = taskEditNode.querySelectorAll('.task-description-input')[0].value;
@@ -55,6 +60,8 @@ export default class Controller {
             const taskProjectName = taskEditNode.querySelectorAll('.project-name-input')[0].value;
 
             let task = new Task(taskName, taskDescription, taskDueDate, taskProjectName);
+
+
 
             taskEditNode.remove();
             taskListNode.innerHTML += UI.taskUI(1, taskName, taskDueDate);
