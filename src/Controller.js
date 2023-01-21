@@ -52,6 +52,7 @@ export default class Controller {
         const submitButtonNode = taskEditNode.querySelectorAll('.edit-control button:first-of-type')[0];
 
         const projectListNode = document.querySelectorAll('.sidebar ol')[0];
+        const addProjectButtonNode = projectListNode.querySelectorAll('.add-project')[0];
 
         submitButtonNode.addEventListener('click', (e) => {
             const taskName = taskEditNode.querySelectorAll('.task-title-input')[0].value;
@@ -60,8 +61,18 @@ export default class Controller {
             const taskProjectName = taskEditNode.querySelectorAll('.project-name-input')[0].value;
 
             let task = new Task(taskName, taskDescription, taskDueDate, taskProjectName);
+            let project = this.projectList.getProject(taskProjectName);
 
+            if (project === null) {
+                project = new Project(taskProjectName);
+            }
+            project.addTask(task);
+            this.projectList.addProject(project);
 
+            addProjectButtonNode.remove();
+            projectListNode.innerHTML += UI.projectUI(project.name);
+            projectListNode.innerHTML += UI.addProjectLine();
+            this.initAddProjectButton();
 
             taskEditNode.remove();
             taskListNode.innerHTML += UI.taskUI(1, taskName, taskDueDate);
