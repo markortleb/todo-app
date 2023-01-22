@@ -33,6 +33,48 @@ export default class Controller {
         this.initLogoutButton();
     }
 
+    initTaskEditButton() {
+        const taskListNode = document.querySelectorAll('.content-area ol')[0];
+        const taskSelector = taskListNode.querySelectorAll('.task');
+
+        for (let i = 0; i < taskSelector.length; i++) {
+            let taskNode = taskSelector[i];
+            let taskTitleAreaNode = taskNode.querySelectorAll('.title-area')[0];
+            let taskLabelNode = taskTitleAreaNode.querySelectorAll('label')[0];
+            let taskCheckboxNode = taskTitleAreaNode.querySelectorAll('input')[0];
+            let taskEditButtonNode = taskNode.querySelectorAll('.control-area img:first-of-type')[0];
+
+            taskEditButtonNode.addEventListener('click', e => {
+                let taskName = taskLabelNode.textContent;
+                let task = this.projectList.getTask(taskName);
+                taskNode.outerHTML = UI.preExistingTaskEditUI(task);
+                this.initAddTaskSubmitButton();
+                this.initAddTaskCancelButton();
+            });
+        }
+
+    }
+
+    initTaskDeleteButton() {
+        const taskListNode = document.querySelectorAll('.content-area ol')[0];
+        const taskSelector = taskListNode.querySelectorAll('.task');
+
+        for (let i = 0; i < taskSelector.length; i++) {
+            let taskNode = taskSelector[i];
+            let taskTitleAreaNode = taskNode.querySelectorAll('.title-area')[0];
+            let taskLabelNode = taskTitleAreaNode.querySelectorAll('label')[0];
+            let taskCheckboxNode = taskTitleAreaNode.querySelectorAll('input')[0];
+            let taskDeleteButtonNode = taskNode.querySelectorAll('.control-area img:last-of-type')[0];
+
+            taskDeleteButtonNode.addEventListener('click', e => {
+                taskNode.outerHTML = '';
+            });
+
+        }
+    }
+
+
+
     initAddTaskButton() {
         const taskListNode = document.querySelectorAll('.content-area ol')[0];
         const addTaskNode = taskListNode.querySelectorAll('.add-task')[0];
@@ -78,6 +120,9 @@ export default class Controller {
             taskListNode.innerHTML += UI.taskUI(1, taskName, taskDueDate);
             taskListNode.innerHTML += UI.addTaskLineUI();
             this.initAddTaskButton();
+
+            this.initTaskEditButton();
+            this.initTaskDeleteButton();
         });
     }
 

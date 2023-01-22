@@ -36,7 +36,6 @@ export default class Project {
         if (index >= 0) {
             task = this.taskList[index];
         }
-
         return task;
     }
 

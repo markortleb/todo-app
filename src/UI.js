@@ -2,6 +2,7 @@ import LogoImg from './img/note-with-paperclip-clip-art.svg';
 import PlusIconImg from './img/plus-circle-outline.png'
 import AppEditIconImg from './img/application-edit-outline.png'
 import TrashCanIconImg from './img/trash-can-outline.png'
+import Task from './Task';
 
 
 export default class UI {
@@ -154,6 +155,27 @@ export default class UI {
                     <div class="edit-bottom">
                         <input type="date" class="due-date-input">
                         <input type="text" class="project-name-input" placeholder="Project name..">
+                    </div>
+                </div>
+                <div class="edit-control">
+                    <button>Submit</button>
+                    <button>Cancel</button>
+                </div>
+            </li>
+        `;
+    }
+
+    static preExistingTaskEditUI(task) {
+        return `
+            <li class="task-edit-mode">
+                <div class="edit-area">
+                    <div class="edit-top">
+                        <input type="text" class="task-title-input" placeholder="Task title.." value="${task.name}">
+                        <textarea class="task-description-input" placeholder="Task description..">${task.description}</textarea>
+                    </div>
+                    <div class="edit-bottom">
+                        <input type="date" class="due-date-input" value="${task.dueDate}">
+                        <input type="text" class="project-name-input" placeholder="Project name.." value="${task.projectName}">
                     </div>
                 </div>
                 <div class="edit-control">

@@ -35,4 +35,16 @@ export default class ProjectList {
         return project;
     }
 
+    getTask(taskName) {
+        let task = null;
+
+        for (let i = 0; i < this.list.length; i++) {
+            task = this.list[i].getTask(taskName);
+            if (task !== null) {
+                break;
+            }
+        }
+        return task;
+    }
+
 }
