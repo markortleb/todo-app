@@ -48,9 +48,34 @@ export default class ProjectList {
     }
 
     removeTask(taskName) {
+        let projectToRemove = null;
+
         for (let i = 0; i < this.list.length; i++) {
-            this.list[i].removeTask(taskName);
+            if (this.list[i].getTask(taskName) !== null) {
+                if (this.list[i].removeTask(taskName) === 0) {
+                    projectToRemove = this.list[i];
+                }
+            }
         }
+
+        if (projectToRemove !== null) {
+            this.removeProject(projectToRemove.name);
+        }
+    }
+
+    removeProject(projectName) {
+        let index = this.getProjectIndex(projectName);
+        if (index > -1) {
+            this.list.splice(index, 1);
+        }
+    }
+
+    getSize() {
+        return this.list.length;
+    }
+
+    getProjectByIndex(index) {
+        return this.list[index];
     }
 
 }

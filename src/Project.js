@@ -44,6 +44,7 @@ export default class Project {
         if (index > -1) {
             this.taskList.splice(index, 1);
         }
+        return this.taskList.length;
     }
 
 }

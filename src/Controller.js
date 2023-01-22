@@ -33,6 +33,17 @@ export default class Controller {
         this.initLogoutButton();
     }
 
+    renderProjectList() {
+        const projectListNode = document.querySelectorAll('.sidebar ol')[0];
+        projectListNode.innerHTML = '';
+
+        projectListNode.innerHTML += UI.allProjectsLine()
+        for (let i = 0; i < this.projectList.getSize(); i++) {
+            projectListNode.innerHTML += UI.projectUI(this.projectList.getProjectIndex(i));
+        }
+        projectListNode.innerHTML += UI.addProjectLine();
+    }
+
     initTaskEditButton() {
         const taskListNode = document.querySelectorAll('.content-area ol')[0];
         const taskSelector = taskListNode.querySelectorAll('.task');
@@ -69,7 +80,7 @@ export default class Controller {
             taskDeleteButtonNode.addEventListener('click', e => {
                 let taskName = taskLabelNode.textContent;
                 this.projectList.removeTask(taskName);
-                taskNode.outerHTML = '';
+                this.renderProjectList();
             });
 
         }

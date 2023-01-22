@@ -199,7 +199,7 @@ export default class UI {
 
     static projectUI(name) {
         return `
-            <li>${name}</li>
+            <li class="project">${name}</li>
         `;
     }
 
@@ -209,6 +209,12 @@ export default class UI {
                 <img src="${this.#plusIconImg.src}" alt="">
                 <span>Add Project</span>
             </li>
+        `;
+    }
+
+    static allProjectsLine() {
+        return `
+            <li class="all-projects">All Projects</li>
         `;
     }
 
