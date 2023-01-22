@@ -67,13 +67,13 @@ export default class Controller {
             let taskDeleteButtonNode = taskNode.querySelectorAll('.control-area img:last-of-type')[0];
 
             taskDeleteButtonNode.addEventListener('click', e => {
+                let taskName = taskLabelNode.textContent;
+                this.projectList.removeTask(taskName);
                 taskNode.outerHTML = '';
             });
 
         }
     }
-
-
 
     initAddTaskButton() {
         const taskListNode = document.querySelectorAll('.content-area ol')[0];

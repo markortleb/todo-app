@@ -47,4 +47,10 @@ export default class ProjectList {
         return task;
     }
 
+    removeTask(taskName) {
+        for (let i = 0; i < this.list.length; i++) {
+            this.list[i].removeTask(taskName);
+        }
+    }
+
 }

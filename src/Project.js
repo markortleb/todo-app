@@ -39,4 +39,11 @@ export default class Project {
         return task;
     }
 
+    removeTask(taskName) {
+        let index = this.getTaskIndex(taskName);
+        if (index > -1) {
+            this.taskList.splice(index, 1);
+        }
+    }
+
 }
