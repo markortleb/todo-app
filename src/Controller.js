@@ -9,8 +9,6 @@ import Storage from "./Storage";
 export default class Controller {
 
     constructor() {
-        this.projectList = new ProjectList();
-
         UI.initImages();
         this.loadLoginPage();
     }
@@ -28,9 +26,15 @@ export default class Controller {
 
     loadMainPage(username) {
         UI.loadMainSkeleton(username);
-        this.initAddTaskButton();
-        this.initAddProjectButton();
-        this.initLogoutButton();
+        this.projectList = new ProjectList();
+
+        this.taskIndexInEditMode = -1;
+        this.tasksInExpandedMode = [];
+        this.taskAddOpen = false;
+        this.projectAddOpen = false;
+
+        this.renderProjectList();
+        this.renderTaskList();
     }
 
     renderProjectList() {
@@ -42,70 +46,72 @@ export default class Controller {
             projectListNode.innerHTML += UI.projectUI(this.projectList.getProjectIndex(i));
         }
         projectListNode.innerHTML += UI.addProjectLine();
+        this.initAddProjectButton();
     }
 
-    initTaskEditButton() {
+    renderTaskList() {
         const taskListNode = document.querySelectorAll('.content-area ol')[0];
-        const taskSelector = taskListNode.querySelectorAll('.task');
+        let visibleTasks = this.projectList.getAllTasks('asc', []);
 
-        for (let i = 0; i < taskSelector.length; i++) {
-            let taskNode = taskSelector[i];
-            let taskTitleAreaNode = taskNode.querySelectorAll('.title-area')[0];
-            let taskLabelNode = taskTitleAreaNode.querySelectorAll('label')[0];
-            let taskCheckboxNode = taskTitleAreaNode.querySelectorAll('input')[0];
-            let taskEditButtonNode = taskNode.querySelectorAll('.control-area img:first-of-type')[0];
-
-            taskEditButtonNode.addEventListener('click', e => {
-                let taskName = taskLabelNode.textContent;
-                let task = this.projectList.getTask(taskName);
-                taskNode.outerHTML = UI.preExistingTaskEditUI(task);
-                this.initAddTaskSubmitButton();
-                this.initAddTaskCancelButton();
-            });
+        taskListNode.innerHTML = '';
+        for (let i = 0; i < visibleTasks.length; i++) {
+            taskListNode.innerHTML += UI.taskUI(i, visibleTasks[i].name, visibleTasks[i].dueDate);
+            let taskNode = taskListNode.querySelectorAll('li:last-of-type')[0];
+            this.initCollapsedTask(visibleTasks[i], taskNode);
         }
 
-    }
-
-    initTaskDeleteButton() {
-        const taskListNode = document.querySelectorAll('.content-area ol')[0];
-        const taskSelector = taskListNode.querySelectorAll('.task');
-
-        for (let i = 0; i < taskSelector.length; i++) {
-            let taskNode = taskSelector[i];
-            let taskTitleAreaNode = taskNode.querySelectorAll('.title-area')[0];
-            let taskLabelNode = taskTitleAreaNode.querySelectorAll('label')[0];
-            let taskCheckboxNode = taskTitleAreaNode.querySelectorAll('input')[0];
-            let taskDeleteButtonNode = taskNode.querySelectorAll('.control-area img:last-of-type')[0];
-
-            taskDeleteButtonNode.addEventListener('click', e => {
-                let taskName = taskLabelNode.textContent;
-                this.projectList.removeTask(taskName);
-                this.renderProjectList();
-            });
-
+        if (this.taskIndexInEditMode === this.projectList.getSize()) {
+            taskListNode.innerHTML += UI.taskEditUI();
+            let taskNode = taskListNode.querySelectorAll('li:last-of-type')[0];
+            this.initEditModeTask(taskNode);
+        } else {
+            taskListNode.innerHTML += UI.addTaskLineUI();
+            let addTaskNode = taskListNode.querySelectorAll('.add-task')[0];
+            this.initAddTask(addTaskNode);
         }
     }
 
-    initAddTaskButton() {
-        const taskListNode = document.querySelectorAll('.content-area ol')[0];
-        const addTaskNode = taskListNode.querySelectorAll('.add-task')[0];
+    initCollapsedTask(task, taskNode) {
+        this.initTaskEditButton(task, taskNode);
+        this.initTaskDeleteButton(task, taskNode);
+    }
+
+    initEditModeTask(taskNode) {
+        this.initTaskEditSubmitButton(taskNode);
+        this.initTaskEditCancelButton(taskNode);
+    }
+
+    initAddTask(addTaskNode) {
         const addTaskButtonNode = addTaskNode.querySelectorAll('.add-button')[0];
 
         addTaskButtonNode.addEventListener('click', (e) => {
-            addTaskNode.remove();
-            taskListNode.innerHTML += UI.taskEditUI();
+            this.taskIndexInEditMode = this.projectList.getSize();
+            this.renderTaskList();
+        });
+    }
+
+    initTaskEditButton(task, taskNode) {
+        const taskEditButtonNode = taskNode.querySelectorAll('.control-area img:first-of-type')[0];
+
+        taskEditButtonNode.addEventListener('click', e => {
+            taskNode.outerHTML = UI.preExistingTaskEditUI(task);
             this.initAddTaskSubmitButton();
             this.initAddTaskCancelButton();
         });
     }
 
-    initAddTaskSubmitButton() {
-        const taskListNode = document.querySelectorAll('.content-area ol')[0];
-        const taskEditNode = taskListNode.querySelectorAll('.task-edit-mode')[0];
-        const submitButtonNode = taskEditNode.querySelectorAll('.edit-control button:first-of-type')[0];
+    initTaskDeleteButton(task, taskNode) {
+        let taskDeleteButtonNode = taskNode.querySelectorAll('.control-area img:last-of-type')[0];
 
-        const projectListNode = document.querySelectorAll('.sidebar ol')[0];
-        const addProjectButtonNode = projectListNode.querySelectorAll('.add-project')[0];
+        taskDeleteButtonNode.addEventListener('click', e => {
+            this.projectList.removeTask(task.name);
+            this.renderProjectList();
+            this.renderTaskList();
+        });
+    }
+
+    initTaskEditSubmitButton(taskEditNode) {
+        const submitButtonNode = taskEditNode.querySelectorAll('.edit-control button:first-of-type')[0];
 
         submitButtonNode.addEventListener('click', (e) => {
             const taskName = taskEditNode.querySelectorAll('.task-title-input')[0].value;
@@ -122,30 +128,18 @@ export default class Controller {
             project.addTask(task);
             this.projectList.addProject(project);
 
-            addProjectButtonNode.remove();
-            projectListNode.innerHTML += UI.projectUI(project.name);
-            projectListNode.innerHTML += UI.addProjectLine();
-            this.initAddProjectButton();
-
-            taskEditNode.remove();
-            taskListNode.innerHTML += UI.taskUI(1, taskName, taskDueDate);
-            taskListNode.innerHTML += UI.addTaskLineUI();
-            this.initAddTaskButton();
-
-            this.initTaskEditButton();
-            this.initTaskDeleteButton();
+            this.renderTaskList();
+            this.renderProjectList();
         });
+
     }
 
-    initAddTaskCancelButton() {
-        const taskListNode = document.querySelectorAll('.content-area ol')[0];
-        const taskEditNode = taskListNode.querySelectorAll('.task-edit-mode')[0];
+    initTaskEditCancelButton(taskEditNode) {
         const cancelButtonNode = taskEditNode.querySelectorAll('.edit-control button:last-of-type')[0];
 
         cancelButtonNode.addEventListener('click', (e) => {
-            taskEditNode.remove();
-            taskListNode.innerHTML += UI.addTaskLineUI();
-            this.initAddTaskButton();
+            this.taskIndexInEditMode = -1;
+            this.renderTaskList();
         });
     }
 
