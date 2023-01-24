@@ -30,10 +30,13 @@ export default class Controller {
 
         this.tasksInEditMode = [];
         this.taskAddOpen = false;
-        this.currentProject = null;
+        this.currentProject = 'All Projects';
+        this.taskDateOrder = 'asc';
 
         this.renderProjectList();
         this.renderTaskList();
+        this.initDateOrderButton();
+        this.initLogoutButton()
     }
 
     renderProjectList() {
@@ -51,7 +54,7 @@ export default class Controller {
 
     renderTaskList() {
         const taskListNode = document.querySelectorAll('.content-area ol')[0];
-        let visibleTasks = this.projectList.getAllTasks('asc', []);
+        let visibleTasks = this.projectList.getAllTasks(this.taskDateOrder, []);
 
         taskListNode.innerHTML = '';
         for (let i = 0; i < visibleTasks.length; i++) {
@@ -160,6 +163,20 @@ export default class Controller {
                 this.taskAddOpen = false;
             }
 
+            this.renderTaskList();
+        });
+    }
+
+    initDateOrderButton () {
+        const dateArea = document.querySelectorAll('.content-area .list-header .date-area')[0];
+
+        dateArea.addEventListener('click', e => {
+            if (this.taskDateOrder === 'desc') {
+                this.taskDateOrder = 'asc';
+            } else if (this.taskDateOrder === 'asc') {
+                this.taskDateOrder = 'desc';
+            }
+            dateArea.innerHTML = UI.dateAreaInteriorUI(this.taskDateOrder);
             this.renderTaskList();
         });
     }

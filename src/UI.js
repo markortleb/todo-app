@@ -109,8 +109,7 @@ export default class UI {
                             <span>All Projects</span>
                         </div>
                         <div class="date-area">
-                            <span>Due Date</span>
-                            <span>▼</span>
+                            ${this.dateAreaInteriorUI('asc')}
                         </div>
                     </div>
                     <ol>
@@ -209,7 +208,19 @@ export default class UI {
         `;
     }
 
+    static dateAreaInteriorUI(dateOrder) {
+        let arrow = '';
+        if (dateOrder === 'desc') {
+            arrow = '▼';
+        } else if (dateOrder === 'asc') {
+            arrow = '▲';
+        }
 
+        return `
+            <span>Due Date</span>
+            <span>${arrow}</span>
+        `;
+    }
 
 }
 

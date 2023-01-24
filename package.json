@@ -1,7 +1,7 @@
 {
-  "name": "restaurant-page",
+  "name": "todo-app",
   "version": "1.0.0",
-  "description": "A simple restaurant homepage.",
+  "description": "A simple todo app.",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
