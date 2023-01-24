@@ -58,7 +58,7 @@ export default class Controller {
             if (this.tasksInEditMode.includes(visibleTasks[i].name)) {
                 taskListNode.insertAdjacentHTML('beforeend', UI.preExistingTaskEditUI(visibleTasks[i]));
                 let taskNode = taskListNode.querySelectorAll('li:last-of-type')[0];
-                this.initEditModeTask(taskNode);
+                this.initEditModeTask(visibleTasks[i], taskNode, false);
             } else {
                 taskListNode.insertAdjacentHTML('beforeend', UI.taskUI(i, visibleTasks[i].name, visibleTasks[i].dueDate));
                 let taskNode = taskListNode.querySelectorAll('li:last-of-type')[i];
@@ -69,7 +69,7 @@ export default class Controller {
         if (this.taskAddOpen) {
             taskListNode.insertAdjacentHTML('beforeend', UI.taskEditUI());
             let taskNode = taskListNode.querySelectorAll('li:last-of-type')[0];
-            this.initEditModeTask(taskNode);
+            this.initEditModeTask(null, taskNode, true);
         } else {
             taskListNode.insertAdjacentHTML('beforeend', UI.addTaskLineUI());
             let addTaskNode = taskListNode.querySelectorAll('.add-task')[0];
@@ -82,15 +82,15 @@ export default class Controller {
         this.initTaskDeleteButton(task, taskNode);
     }
 
-    initEditModeTask(taskNode) {
-        this.initTaskEditSubmitButton(taskNode);
-        this.initTaskEditCancelButton(taskNode);
+    initEditModeTask(task, taskNode, addMode) {
+        this.initTaskEditSubmitButton(task, taskNode, addMode);
+        this.initTaskEditCancelButton(task, taskNode, addMode);
     }
 
     initAddTask(addTaskNode) {
         const addTaskButtonNode = addTaskNode.querySelectorAll('.add-button')[0];
 
-        addTaskButtonNode.addEventListener('click', async (e) => {
+        addTaskButtonNode.addEventListener('click', e => {
             this.taskAddOpen = true;
             this.renderTaskList();
         });
@@ -100,8 +100,7 @@ export default class Controller {
         let taskEditButtonNode = taskNode.querySelectorAll('.control-area')[0];
         console.log(taskEditButtonNode);
 
-        taskEditButtonNode.addEventListener('click', async (e) => {
-            console.log("dadaadadad");
+        taskEditButtonNode.addEventListener('click', e => {
             this.tasksInEditMode.push(task.name);
             this.renderTaskList();
         });
@@ -110,17 +109,17 @@ export default class Controller {
     initTaskDeleteButton(task, taskNode) {
         let taskDeleteButtonNode = taskNode.querySelectorAll('.control-area img:last-of-type')[0];
 
-        taskDeleteButtonNode.addEventListener('click', async e => {
+        taskDeleteButtonNode.addEventListener('click', e => {
             this.projectList.removeTask(task.name);
             this.renderProjectList();
             this.renderTaskList();
         });
     }
 
-    initTaskEditSubmitButton(taskEditNode) {
+    initTaskEditSubmitButton(task, taskEditNode, addMode) {
         const submitButtonNode = taskEditNode.querySelectorAll('.edit-control button:first-of-type')[0];
 
-        submitButtonNode.addEventListener('click', async (e) => {
+        submitButtonNode.addEventListener('click', e => {
             const taskName = taskEditNode.querySelectorAll('.task-title-input')[0].value;
             const taskDescription = taskEditNode.querySelectorAll('.task-description-input')[0].value;
             const taskDueDate = taskEditNode.querySelectorAll('.due-date-input')[0].value;
@@ -134,7 +133,14 @@ export default class Controller {
             }
             project.addTask(task);
             this.projectList.addProject(project);
-            this.taskAddOpen = false;
+
+            if (!addMode && this.tasksInEditMode.indexOf(task.name) !== -1) {
+                this.tasksInEditMode.splice(this.tasksInEditMode.indexOf(task.name), 1);
+            }
+
+            if (addMode) {
+                this.taskAddOpen = false;
+            }
 
             this.renderTaskList();
             this.renderProjectList();
@@ -142,11 +148,18 @@ export default class Controller {
 
     }
 
-    initTaskEditCancelButton(taskEditNode) {
+    initTaskEditCancelButton(task, taskEditNode, addMode) {
         const cancelButtonNode = taskEditNode.querySelectorAll('.edit-control button:last-of-type')[0];
 
-        cancelButtonNode.addEventListener('click', async (e) => {
-            this.taskAddOpen = false;
+        cancelButtonNode.addEventListener('click', e => {
+            if (!addMode && this.tasksInEditMode.indexOf(task.name) !== -1) {
+                this.tasksInEditMode.splice(this.tasksInEditMode.indexOf(task.name), 1);
+            }
+
+            if (addMode) {
+                this.taskAddOpen = false;
+            }
+
             this.renderTaskList();
         });
     }
@@ -155,7 +168,7 @@ export default class Controller {
         const projectListNode = document.querySelectorAll('.sidebar ol')[0];
         const addProjectButtonNode = projectListNode.querySelectorAll('.add-project')[0];
 
-        addProjectButtonNode.addEventListener('click', async (e) => {
+        addProjectButtonNode.addEventListener('click',e => {
             addProjectButtonNode.remove();
             projectListNode.innerHTML += UI.addProjectInputLine();
             this.initAddProjectSubmitButton();
@@ -168,7 +181,7 @@ export default class Controller {
         const addProjectInputNode = projectListNode.querySelectorAll('.add-project-input')[0];
         const submitButtonNode = addProjectInputNode.querySelectorAll('.add-project-buttons button:first-of-type')[0];
 
-        submitButtonNode.addEventListener('click', async (e) => {
+        submitButtonNode.addEventListener('click',e => {
             const projectName = addProjectInputNode.querySelectorAll('input')[0].value;
 
             let project = new Project(projectName);
@@ -185,7 +198,7 @@ export default class Controller {
         const addProjectInputNode = projectListNode.querySelectorAll('.add-project-input')[0];
         const cancelButtonNode = addProjectInputNode.querySelectorAll('.add-project-buttons button:last-of-type')[0];
 
-        cancelButtonNode.addEventListener('click', async (e) => {
+        cancelButtonNode.addEventListener('click', e => {
             addProjectInputNode.remove();
             projectListNode.innerHTML += UI.addProjectLine();
             this.initAddProjectButton();
@@ -199,7 +212,7 @@ export default class Controller {
         const loginButtonNode = loginAreaNode.querySelectorAll('.login-buttons button:first-of-type')[0];
         const signUpButtonNode = loginAreaNode.querySelectorAll('.login-buttons button:last-of-type')[0];
 
-        loginButtonNode.addEventListener('click', async e => {
+        loginButtonNode.addEventListener('click', e => {
             let account = Storage.getAccount(emailInputNode.value, passwordInputNode.value);
             if (account) {
                 this.loadMainPage(account.name);
@@ -214,7 +227,7 @@ export default class Controller {
         const loginButtonNode = loginAreaNode.querySelectorAll('.login-buttons button:first-of-type')[0];
         const signUpButtonNode = loginAreaNode.querySelectorAll('.login-buttons button:last-of-type')[0];
 
-        signUpButtonNode.addEventListener('click', async e => {
+        signUpButtonNode.addEventListener('click',e => {
             const emailInput = emailInputNode.value;
             const passwordInput = passwordInputNode.value;
 
@@ -231,7 +244,7 @@ export default class Controller {
         const yourNameInputNode = signUpAreaNode.querySelectorAll('.signup-line #signup-your-name')[0];
         const createAccountButtonNode = signUpAreaNode.querySelectorAll('.signup-buttons button')[0];
 
-        createAccountButtonNode.addEventListener('click', async e => {
+        createAccountButtonNode.addEventListener('click', e => {
             if (emailInputNode.value !== '' && passwordInputNode.value !== '' &&
                     passwordInputNode.value === confirmPasswordInputNode.value) {
                 const emailInput = emailInputNode.value;
@@ -250,7 +263,7 @@ export default class Controller {
         const accountInfoNode = document.querySelectorAll('.topbar .account-info')[0];
         const logoutButtonNode = document.querySelectorAll('button')[0];
 
-        logoutButtonNode.addEventListener('click', async e => {
+        logoutButtonNode.addEventListener('click', e => {
             UI.loadLoginPage();
             this.initLoginButton();
             this.initSignUpButton();
