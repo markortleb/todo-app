@@ -203,32 +203,12 @@ export default class UI {
         `;
     }
 
-    static addProjectLine() {
-        return `
-            <li class="add-project">
-                <img src="${this.#plusIconImg.src}" alt="">
-                <span>Add Project</span>
-            </li>
-        `;
-    }
-
     static allProjectsLine() {
         return `
             <li class="all-projects">All Projects</li>
         `;
     }
 
-    static addProjectInputLine() {
-        return `
-            <li class="add-project-input">
-                <input type="text" placeholder="Project name..">
-                <div class="add-project-buttons">
-                    <button>✔</button>
-                    <button>✖</button>
-                </div>
-            </li>
-        `;
-    }
 
 
 }

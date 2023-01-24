@@ -28,10 +28,9 @@ export default class Controller {
         UI.loadMainSkeleton(username);
         this.projectList = new ProjectList();
 
-        this.taskIndexInEditMode = -1;
         this.tasksInEditMode = [];
         this.taskAddOpen = false;
-        this.projectAddOpen = false;
+        this.currentProject = null;
 
         this.renderProjectList();
         this.renderTaskList();
@@ -40,13 +39,14 @@ export default class Controller {
     renderProjectList() {
         const projectListNode = document.querySelectorAll('.sidebar ol')[0];
         projectListNode.innerHTML = '';
+        projectListNode.insertAdjacentHTML('beforeend', UI.allProjectsLine());
 
-        projectListNode.innerHTML += UI.allProjectsLine()
-        for (let i = 0; i < this.projectList.getSize(); i++) {
-            projectListNode.innerHTML += UI.projectUI(this.projectList.getProjectIndex(i));
+        let sortedProjects = this.projectList.getAllProjects([]);
+        console.log(sortedProjects);
+
+        for (let i = 0; i < sortedProjects.length; i++) {
+            projectListNode.insertAdjacentHTML('beforeend', UI.projectUI(sortedProjects[i].name));
         }
-        projectListNode.innerHTML += UI.addProjectLine();
-        this.initAddProjectButton();
     }
 
     renderTaskList() {
@@ -61,7 +61,7 @@ export default class Controller {
                 this.initEditModeTask(visibleTasks[i], taskNode, false);
             } else {
                 taskListNode.insertAdjacentHTML('beforeend', UI.taskUI(i, visibleTasks[i].name, visibleTasks[i].dueDate));
-                let taskNode = taskListNode.querySelectorAll('li:last-of-type')[i];
+                let taskNode = taskListNode.querySelectorAll('li:last-of-type')[0];
                 this.initCollapsedTask(visibleTasks[i], taskNode);
             }
         }
@@ -97,7 +97,7 @@ export default class Controller {
     }
 
     initTaskEditButton(task, taskNode) {
-        let taskEditButtonNode = taskNode.querySelectorAll('.control-area')[0];
+        let taskEditButtonNode = taskNode.querySelectorAll('.control-area img:first-of-type')[0];
         console.log(taskEditButtonNode);
 
         taskEditButtonNode.addEventListener('click', e => {
@@ -161,47 +161,6 @@ export default class Controller {
             }
 
             this.renderTaskList();
-        });
-    }
-
-    initAddProjectButton() {
-        const projectListNode = document.querySelectorAll('.sidebar ol')[0];
-        const addProjectButtonNode = projectListNode.querySelectorAll('.add-project')[0];
-
-        addProjectButtonNode.addEventListener('click',e => {
-            addProjectButtonNode.remove();
-            projectListNode.innerHTML += UI.addProjectInputLine();
-            this.initAddProjectSubmitButton();
-            this.initAddProjectCancelButton();
-        });
-    }
-
-    initAddProjectSubmitButton() {
-        const projectListNode = document.querySelectorAll('.sidebar ol')[0];
-        const addProjectInputNode = projectListNode.querySelectorAll('.add-project-input')[0];
-        const submitButtonNode = addProjectInputNode.querySelectorAll('.add-project-buttons button:first-of-type')[0];
-
-        submitButtonNode.addEventListener('click',e => {
-            const projectName = addProjectInputNode.querySelectorAll('input')[0].value;
-
-            let project = new Project(projectName);
-
-            addProjectInputNode.remove();
-            projectListNode.innerHTML += UI.projectUI(projectName);
-            projectListNode.innerHTML += UI.addProjectLine();
-            this.initAddProjectButton();
-        });
-    }
-
-    initAddProjectCancelButton() {
-        const projectListNode = document.querySelectorAll('.sidebar ol')[0];
-        const addProjectInputNode = projectListNode.querySelectorAll('.add-project-input')[0];
-        const cancelButtonNode = addProjectInputNode.querySelectorAll('.add-project-buttons button:last-of-type')[0];
-
-        cancelButtonNode.addEventListener('click', e => {
-            addProjectInputNode.remove();
-            projectListNode.innerHTML += UI.addProjectLine();
-            this.initAddProjectButton();
         });
     }
 

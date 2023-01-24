@@ -74,8 +74,10 @@ export default class ProjectList {
         return this.list.length;
     }
 
-    getProjectByIndex(index) {
-        return this.list[index];
+    getAllProjects(projectsToLimitBy) {
+        return this.list.filter(
+            project => !projectsToLimitBy.includes(project.name)
+        ).sort((a, b) => a.name.localeCompare(b.name));
     }
 
     getAllTasks(dateOrder, projectsToLimitBy) {
@@ -83,9 +85,9 @@ export default class ProjectList {
             project => !projectsToLimitBy.includes(project.name)
         ).map(project => project.taskList).flat().sort(
             dateOrder === 'asc' ? (a, b) => {
-                return a.dueDate - b.dueDate;
+                return a.dueDate.localeCompare(b.dueDate);
             } : (a, b) => {
-                return b.dueDate - a.dueDate;
+                return b.dueDate.localeCompare(a.dueDate);
             }
         );
 
