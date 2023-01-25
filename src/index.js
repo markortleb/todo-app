@@ -8,4 +8,4 @@ import './css/signup.css';
 import Controller from './Controller';
 
 
-const controller = new Controller();
+Controller.init();

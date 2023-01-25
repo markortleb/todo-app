@@ -3,6 +3,7 @@ import PlusIconImg from './img/plus-circle-outline.png'
 import AppEditIconImg from './img/application-edit-outline.png'
 import TrashCanIconImg from './img/trash-can-outline.png'
 import Task from './Task';
+import AppState from "./AppState";
 
 
 export default class UI {
@@ -24,8 +25,8 @@ export default class UI {
         this.#trashCanIconImg.src = TrashCanIconImg;
     }
 
-    static loadLoginPage() {
-        document.body.innerHTML = `
+    static loginPageUI() {
+        return `
         <div class="login-container">
             <div class="login-area">
                 <div class="login-title">
@@ -46,11 +47,11 @@ export default class UI {
                 </div>
             </div>
         </div>
-        `
+        `;
     }
 
-    static loadSignUpPage(email, password) {
-        document.body.innerHTML = `
+    static signUpPageUI(email, password) {
+        return `
         <div class="signup-container">
             <div class="signup-area">
                 <div class="signup-title">
@@ -78,11 +79,11 @@ export default class UI {
                 </div>
             </div>
         </div>
-        `
+        `;
     }
 
-    static loadMainSkeleton(username) {
-        document.body.innerHTML = `
+    static loadMainSkeleton() {
+        return `
             <div class="container">
                 <div class="topbar">
                     <div class="title">
@@ -90,7 +91,7 @@ export default class UI {
                         <h1>To-do..</h1>
                     </div>
                     <div class="account-info">                   
-                        <span>${username}</span>
+                        <span>${AppState.account.name}</span>
                         <button>Logout</button>
                     </div>
                 </div>
