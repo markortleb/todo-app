@@ -9,7 +9,8 @@ import Controller from "./Controller";
 
 export default class EventBoard {
 
-    static initCollapsedTask(task, taskNode) {
+    static initTask(task, taskNode) {
+        this.initClickableTask(task, taskNode);
         this.initTaskEditButton(task, taskNode);
         this.initTaskDeleteButton(task, taskNode);
     }
@@ -31,6 +32,18 @@ export default class EventBoard {
     static initMainPage() {
         this.initDateOrderButton();
         this.initLogoutButton();
+    }
+
+    static initClickableTask(task, taskNode) {
+        taskNode.addEventListener('click', e => {
+            if (AppState.tasksInExpandedMode.includes(task.name)) {
+                AppState.tasksInExpandedMode.splice(AppState.tasksInExpandedMode.indexOf(task.name), 1);
+            } else {
+                AppState.tasksInExpandedMode.push(task.name);
+            }
+            Storage.setAccount(AppState.account);
+            Renderer.renderTaskList();
+        });
     }
 
     static initAddTask(addTaskNode) {

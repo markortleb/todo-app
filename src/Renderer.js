@@ -49,9 +49,13 @@ export default class Renderer {
                 let taskNode = taskListNode.querySelectorAll('li:last-of-type')[0];
                 EventBoard.initEditModeTask(visibleTasks[i], taskNode, false);
             } else {
-                taskListNode.insertAdjacentHTML('beforeend', UI.taskUI(i, visibleTasks[i].name, visibleTasks[i].dueDate));
+                if (AppState.tasksInExpandedMode.includes(visibleTasks[i].name)) {
+                    taskListNode.insertAdjacentHTML('beforeend', UI.taskExpandedUI(i, visibleTasks[i].name, visibleTasks[i].dueDate, visibleTasks[i].description, visibleTasks[i].projectName));
+                } else {
+                    taskListNode.insertAdjacentHTML('beforeend', UI.taskUI(i, visibleTasks[i].name, visibleTasks[i].dueDate));
+                }
                 let taskNode = taskListNode.querySelectorAll('li:last-of-type')[0];
-                EventBoard.initCollapsedTask(visibleTasks[i], taskNode);
+                EventBoard.initTask(visibleTasks[i], taskNode);
             }
         }
 

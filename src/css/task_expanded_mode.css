@@ -1,0 +1,29 @@
+.task-expanded-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+}
+
+.task-expanded-mode-top {
+    display: grid;
+    grid-template-columns: auto 8em 4em;
+    align-items: center;
+    gap: 0.7em;
+    padding: 1em 0;
+}
+
+.task-expanded-mode-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 3em 1em 3em;
+    gap: 1em;
+}
+
+.task-expanded-mode-bottom  span:first-of-type{
+    font-size: 0.9em;
+}
+
+.task-expanded-mode-bottom  span:last-of-type{
+    font-weight: bold;
+}

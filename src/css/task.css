@@ -1,0 +1,7 @@
+.task {
+    display: grid;
+    grid-template-columns: auto 8em 4em;
+    align-items: center;
+    gap: 0.7em;
+    padding: 1em 0;
+}

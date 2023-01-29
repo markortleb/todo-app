@@ -161,10 +161,8 @@ export default class UI {
                     </div>
                 </div>
                 <div class="task-expanded-mode-bottom">
-                    <div class="task-expanded-bottom-container">
-                        <span class="task-expanded-description">${description}</span>
-                        <span class="task-expanded-project">${projectName}</span>
-                    </div>
+                    <span class="task-expanded-description">${description}</span>
+                    <span class="task-expanded-project">${projectName}</span>
                 </div>
 
             </li>

@@ -39,15 +39,6 @@
     filter: invert(100%) sepia(84%) saturate(78%) hue-rotate(183deg) brightness(115%) contrast(87%);
 }
 
-.content-area ol .task {
-    display: grid;
-    grid-template-columns: auto 8em 4em;
-    align-items: center;
-    gap: 0.7em;
-    padding: 1em 0;
-}
-
-
 .content-area ol li + li {
     border-top: 1px solid black;
 }
@@ -67,75 +58,3 @@
     gap: 0.5em;
 }
 
-.task-edit-mode {
-    padding: 2em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
-}
-
-.edit-area {
-    width: 100%;
-    min-height: 10em;
-    border-radius: 15px;
-    border: 1px solid black;
-    padding: 1em;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 1em;
-}
-
-.edit-top {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-}
-
-.edit-top input {
-    border: none;
-    font-size: 1.5em;
-
-}
-
-.edit-top textarea {
-    /*https://stackoverflow.com/questions/17772260/textarea-auto-height*/
-    border: none;
-    resize: none;
-}
-
-.edit-bottom {
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
-}
-
-.edit-bottom input {
-    border-radius: 15px;
-    border: 1px solid gray;
-    padding: 0.5em 1em;
-}
-
-.edit-control {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    gap: 1em;
-}
-
-.edit-control button{
-    width: 6em;
-    padding: 0.5em 1em;
-    font-size: 1em;
-    border-radius: 15px;
-}
-
-.edit-control button:first-of-type {
-    background-color: #d8f87f;
-}
-
-.edit-control button:last-of-type {
-    background-color: #f68686;
-}
