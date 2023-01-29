@@ -59,9 +59,9 @@ export default class Renderer {
                 EventBoard.initEditModeTask(visibleTasks[i], taskNode, false);
             } else {
                 if (AppState.tasksInExpandedMode.includes(visibleTasks[i].name)) {
-                    taskListNode.insertAdjacentHTML('beforeend', UI.taskExpandedUI(i, visibleTasks[i].name, visibleTasks[i].dueDate, visibleTasks[i].description, visibleTasks[i].projectName));
+                    taskListNode.insertAdjacentHTML('beforeend', UI.taskExpandedUI(visibleTasks[i]));
                 } else {
-                    taskListNode.insertAdjacentHTML('beforeend', UI.taskUI(i, visibleTasks[i].name, visibleTasks[i].dueDate));
+                    taskListNode.insertAdjacentHTML('beforeend', UI.taskUI(visibleTasks[i]));
                 }
                 let taskNode = taskListNode.querySelectorAll('li:last-of-type')[0];
                 EventBoard.initTask(visibleTasks[i], taskNode);

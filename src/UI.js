@@ -1,7 +1,9 @@
 import LogoImg from './img/note-with-paperclip-clip-art.svg';
-import PlusIconImg from './img/plus-circle-outline.png'
-import AppEditIconImg from './img/application-edit-outline.png'
-import TrashCanIconImg from './img/trash-can-outline.png'
+import PlusIconImg from './img/plus-circle-outline.png';
+import AppEditIconImg from './img/application-edit-outline.png';
+import TrashCanIconImg from './img/trash-can-outline.png';
+import CheckboxBlankImg from './img/checkbox-blank-outline.svg';
+import CheckboxMarkedImg from './img/checkbox-marked.svg';
 import Task from './Task';
 import AppState from "./AppState";
 
@@ -12,17 +14,23 @@ export default class UI {
     static #plusIconImg;
     static #appEditIconImg;
     static #trashCanIconImg;
+    static #checkboxBlankImg;
+    static #checkboxMarkedImg;
 
     static initImages() {
         this.#logoImg = new Image();
         this.#plusIconImg = new Image();
         this.#appEditIconImg = new Image();
         this.#trashCanIconImg = new Image();
+        this.#checkboxBlankImg = new Image();
+        this.#checkboxMarkedImg = new Image();
 
         this.#logoImg.src = LogoImg;
         this.#plusIconImg.src = PlusIconImg;
         this.#appEditIconImg.src = AppEditIconImg;
         this.#trashCanIconImg.src = TrashCanIconImg;
+        this.#checkboxBlankImg.src = CheckboxBlankImg;
+        this.#checkboxMarkedImg.src = CheckboxMarkedImg;
     }
 
     static loginPageUI() {
@@ -126,15 +134,18 @@ export default class UI {
         `;
     }
 
-    static taskUI(index, taskName, dueDate) {
+    static taskUI(task) {
+        let checkboxUI = task.isDone ? `<img src="${this.#checkboxMarkedImg.src}" alt="">`
+            : `<img src="${this.#checkboxBlankImg.src}" alt="">`;
+
         return `
             <li class="task">
                 <div class="title-area">
-                    <input type="checkbox" id="item${index}">
-                    <label for="item${index}">${taskName}</label>
+                    ${checkboxUI}
+                    <span>${this.strike(task.name, task.isDone)}</span>
                 </div>
                 <div class="date-area">
-                    <span>${dueDate}</span>
+                    <span>${this.strike(task.dueDate, task.isDone)}</span>
                 </div>
                 <div class="control-area">
                     <img src="${this.#appEditIconImg.src}" alt="">
@@ -144,16 +155,19 @@ export default class UI {
         `;
     }
 
-    static taskExpandedUI(index, taskName, dueDate,  description, projectName) {
+    static taskExpandedUI(task) {
+        let checkboxUI = task.isDone ? `<img src="${this.#checkboxMarkedImg.src}" alt="">`
+            : `<img src="${this.#checkboxBlankImg.src}" alt="">`;
+
         return `
             <li class="task-expanded-mode">
                 <div class="task-expanded-mode-top">
                     <div class="title-area">
-                        <input type="checkbox" id="item${index}">
-                        <label for="item${index}">${taskName}</label>
+                        ${checkboxUI}
+                        <span>${this.strike(task.name, task.isDone)}</span>
                     </div>
                     <div class="date-area">
-                        <span>${dueDate}</span>
+                        <span>${this.strike(task.dueDate, task.isDone)}</span>
                     </div>
                     <div class="control-area">
                         <img src="${this.#appEditIconImg.src}" alt="">
@@ -161,8 +175,8 @@ export default class UI {
                     </div>
                 </div>
                 <div class="task-expanded-mode-bottom">
-                    <span class="task-expanded-description">${description}</span>
-                    <span class="task-expanded-project">${projectName}</span>
+                    <span class="task-expanded-description">${this.strike(task.description, task.isDone)}</span>
+                    <span class="task-expanded-project">${task.projectName}</span>
                 </div>
 
             </li>
@@ -246,6 +260,16 @@ export default class UI {
             <span>Due Date</span>
             <span>${arrow}</span>
         `;
+    }
+
+    static strike(someString, isDone) {
+        let returnString = someString;
+
+        if (isDone) {
+            returnString = `<s>${someString}</s>`;
+        }
+
+        return returnString;
     }
 
 }

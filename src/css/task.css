@@ -5,3 +5,14 @@
     gap: 0.7em;
     padding: 1em 0;
 }
+
+li .title-area {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+li .title-area img {
+    width: 1em;
+    filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(10deg) brightness(97%) contrast(103%);
+}

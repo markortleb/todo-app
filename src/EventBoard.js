@@ -13,6 +13,7 @@ export default class EventBoard {
         this.initClickableTask(task, taskNode);
         this.initTaskEditButton(task, taskNode);
         this.initTaskDeleteButton(task, taskNode);
+        this.initTaskCheckbox(task, taskNode);
     }
 
     static initEditModeTask(task, taskNode, addMode) {
@@ -58,19 +59,26 @@ export default class EventBoard {
         });
     }
 
-    static initAddTask(addTaskNode) {
-        const addTaskButtonNode = addTaskNode.querySelectorAll('.add-button')[0];
+    static initTaskCheckbox(task, taskNode) {
+        let taskCheckboxNode = taskNode.querySelectorAll('.title-area img')[0];
+        let taskCheckboxLabelNode = taskNode.querySelectorAll('.title-area span')[0];
+        let nodes = [taskCheckboxNode, taskCheckboxLabelNode];
 
-        addTaskButtonNode.addEventListener('click', e => {
-            AppState.taskAddOpen = true;
-            Storage.setAccount(AppState.account);
-            Renderer.renderTaskList();
-        });
+        for (let i = 0; i < nodes.length; i++) {
+            nodes[i].addEventListener('click', e => {
+                e.stopPropagation();
+                let project = AppState.projectList.getProject(task.projectName);
+                task.isDone = !task.isDone;
+                project.addTask(task);
+                AppState.projectList.addProject(project);
+                Storage.setAccount(AppState.account);
+                Renderer.renderTaskList();
+            });
+        }
     }
 
     static initTaskEditButton(task, taskNode) {
         let taskEditButtonNode = taskNode.querySelectorAll('.control-area img:first-of-type')[0];
-        console.log(taskEditButtonNode);
 
         taskEditButtonNode.addEventListener('click', e => {
             e.stopPropagation();
@@ -88,6 +96,16 @@ export default class EventBoard {
             AppState.projectList.removeTask(task.name);
             Storage.setAccount(AppState.account);
             Renderer.renderProjectList();
+            Renderer.renderTaskList();
+        });
+    }
+
+    static initAddTask(addTaskNode) {
+        const addTaskButtonNode = addTaskNode.querySelectorAll('.add-button')[0];
+
+        addTaskButtonNode.addEventListener('click', e => {
+            AppState.taskAddOpen = true;
+            Storage.setAccount(AppState.account);
             Renderer.renderTaskList();
         });
     }

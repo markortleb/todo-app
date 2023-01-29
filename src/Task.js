@@ -7,6 +7,7 @@ export default class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.projectName = projectName;
+        this.isDone = false;
     }
 
 }

@@ -23,6 +23,7 @@ export default class Project {
                     currentState.taskList[i].description,
                     currentState.taskList[i].dueDate,
                     currentState.taskList[i].projectName,
+                    currentState.taskList[i].isDone
                 )
             );
         }
