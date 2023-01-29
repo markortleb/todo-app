@@ -36,7 +36,8 @@ export default class EventBoard {
 
     static initClickableTask(task, taskNode) {
         taskNode.addEventListener('click', e => {
-            if (AppState.tasksInExpandedMode.includes(task.name)) {
+            console.log('etyetyetet');
+            if (AppState.tasksInExpandedMode.includes(task.name) && !AppState.tasksInEditMode.includes(task.name)) {
                 AppState.tasksInExpandedMode.splice(AppState.tasksInExpandedMode.indexOf(task.name), 1);
             } else {
                 AppState.tasksInExpandedMode.push(task.name);
@@ -61,6 +62,7 @@ export default class EventBoard {
         console.log(taskEditButtonNode);
 
         taskEditButtonNode.addEventListener('click', e => {
+            e.stopPropagation();
             AppState.tasksInEditMode.push(task.name);
             Storage.setAccount(AppState.account);
             Renderer.renderTaskList();
@@ -71,6 +73,7 @@ export default class EventBoard {
         let taskDeleteButtonNode = taskNode.querySelectorAll('.control-area img:last-of-type')[0];
 
         taskDeleteButtonNode.addEventListener('click', e => {
+            e.stopPropagation();
             AppState.projectList.removeTask(task.name);
             Storage.setAccount(AppState.account);
             Renderer.renderProjectList();
@@ -82,6 +85,8 @@ export default class EventBoard {
         const submitButtonNode = taskEditNode.querySelectorAll('.edit-control button:first-of-type')[0];
 
         submitButtonNode.addEventListener('click', e => {
+            e.stopPropagation();
+
             const taskName = taskEditNode.querySelectorAll('.task-title-input')[0].value;
             const taskDescription = taskEditNode.querySelectorAll('.task-description-input')[0].value;
             const taskDueDate = taskEditNode.querySelectorAll('.due-date-input')[0].value;
@@ -114,6 +119,7 @@ export default class EventBoard {
         const cancelButtonNode = taskEditNode.querySelectorAll('.edit-control button:last-of-type')[0];
 
         cancelButtonNode.addEventListener('click', e => {
+            e.stopPropagation();
             if (!addMode && AppState.tasksInEditMode.indexOf(task.name) !== -1) {
                 AppState.tasksInEditMode.splice(AppState.tasksInEditMode.indexOf(task.name), 1);
             }
