@@ -59,3 +59,12 @@
     align-items: center;
     gap: 0.5em;
 }
+
+
+.sidebar li:not(.all-projects):hover {
+    padding-left: 1.1em;
+}
+
+.sidebar .all-projects:hover {
+    font-size: 1.3em;
+}

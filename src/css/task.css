@@ -6,13 +6,18 @@
     padding: 1em 0;
 }
 
-li .title-area {
+.content-area li .title-area {
     display: flex;
     align-items: center;
     gap: 1em;
 }
 
-li .title-area img {
+.content-area li .title-area img {
     width: 1em;
     filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(10deg) brightness(97%) contrast(103%);
+}
+
+.content-area .task:hover {
+    font-size: 1.1em;
+    background-color: #afe7f3;
 }

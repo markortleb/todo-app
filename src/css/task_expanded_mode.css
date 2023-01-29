@@ -27,3 +27,8 @@
 .task-expanded-mode-bottom  span:last-of-type{
     font-weight: bold;
 }
+
+.content-area .task-expanded-mode:hover {
+    font-size: 1.1em;
+    background-color: #afe7f3;
+}
