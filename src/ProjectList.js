@@ -102,9 +102,9 @@ export default class ProjectList {
         ).sort((a, b) => a.name.localeCompare(b.name));
     }
 
-    getAllTasks(dateOrder, projectsToLimitBy) {
+    getAllTasks(dateOrder, projectList) {
         return this.list.filter(
-            project => !projectsToLimitBy.includes(project.name)
+            project => projectList.includes(project.name)
         ).map(project => project.taskList).flat().sort(
             dateOrder === 'asc' ? (a, b) => {
                 return a.dueDate.localeCompare(b.dueDate);
@@ -112,10 +112,6 @@ export default class ProjectList {
                 return b.dueDate.localeCompare(a.dueDate);
             }
         );
-
-    }
-
-    loadFromParsedJson() {
 
     }
 

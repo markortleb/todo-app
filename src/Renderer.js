@@ -36,11 +36,20 @@ export default class Renderer {
         for (let i = 0; i < sortedProjects.length; i++) {
             projectListNode.insertAdjacentHTML('beforeend', UI.projectUI(sortedProjects[i].name));
         }
+
+        EventBoard.initClickableProjects();
     }
 
     static renderTaskList() {
         const taskListNode = document.querySelectorAll('.content-area ol')[0];
-        let visibleTasks = AppState.projectList.getAllTasks(AppState.taskDateOrder, AppState.tasksInEditMode);
+        let visibleTasks = null;
+
+        if (AppState.currentProject === 'All Projects') {
+            visibleTasks = AppState.projectList.getAllTasks(AppState.taskDateOrder, AppState.projectList.list.map(project => project.name));
+        } else {
+            visibleTasks = AppState.projectList.getAllTasks(AppState.taskDateOrder, [AppState.currentProject]);
+        }
+
 
         taskListNode.innerHTML = '';
         for (let i = 0; i < visibleTasks.length; i++) {

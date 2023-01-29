@@ -107,7 +107,7 @@ export default class UI {
                 <div class="content-area">
                     <div class="list-header">
                         <div class="title-area">
-                            <span>All Projects</span>
+                            <span>${AppState.currentProject}</span>
                         </div>
                         <div class="date-area">
                             ${this.dateAreaInteriorUI(AppState.taskDateOrder)}

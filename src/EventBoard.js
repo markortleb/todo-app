@@ -32,11 +32,22 @@ export default class EventBoard {
     static initMainPage() {
         this.initDateOrderButton();
         this.initLogoutButton();
+        this.initClickableProjects();
+    }
+
+    static initClickableProjects() {
+        const projectNodes = document.querySelectorAll('.sidebar ol li');
+
+        for (let i = 0; i < projectNodes.length; i++) {
+            projectNodes[i].addEventListener('click', e => {
+                AppState.currentProject = projectNodes[i].textContent;
+                Renderer.renderMainSkeleton();
+            });
+        }
     }
 
     static initClickableTask(task, taskNode) {
         taskNode.addEventListener('click', e => {
-            console.log('etyetyetet');
             if (AppState.tasksInExpandedMode.includes(task.name) && !AppState.tasksInEditMode.includes(task.name)) {
                 AppState.tasksInExpandedMode.splice(AppState.tasksInExpandedMode.indexOf(task.name), 1);
             } else {
