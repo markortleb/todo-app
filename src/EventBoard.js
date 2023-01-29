@@ -121,7 +121,7 @@ export default class EventBoard {
             const taskDueDate = taskEditNode.querySelectorAll('.due-date-input')[0].value;
             const taskProjectName = taskEditNode.querySelectorAll('.project-name-input')[0].value;
 
-            let task = new Task(taskName, taskDescription, taskDueDate, taskProjectName);
+            let task = new Task(taskName, taskDescription, taskDueDate, taskProjectName, false);
             let project = AppState.projectList.getProject(taskProjectName);
 
             if (project === null) {
