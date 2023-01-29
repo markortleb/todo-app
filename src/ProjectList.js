@@ -1,7 +1,29 @@
+import Project from "./Project";
+
+
 export default class ProjectList {
 
-    constructor() {
-        this.list = [];
+    constructor(currentState) {
+        if (currentState === null) {
+            this.list = [];
+        } else {
+            this.list = this.loadFromCurrentState(currentState);
+        }
+    }
+
+    loadFromCurrentState(currentState) {
+        let list = [];
+
+        for (let i = 0; i < currentState.list.length; i++) {
+            list.push(
+                new Project(
+                    currentState.list[i].name,
+                    currentState.list[i]
+                )
+            );
+        }
+
+        return list;
     }
 
     getProjectIndex(projectName) {
@@ -90,6 +112,10 @@ export default class ProjectList {
                 return b.dueDate.localeCompare(a.dueDate);
             }
         );
+
+    }
+
+    loadFromParsedJson() {
 
     }
 

@@ -38,6 +38,7 @@ export default class EventBoard {
 
         addTaskButtonNode.addEventListener('click', e => {
             AppState.taskAddOpen = true;
+            Storage.setAccount(AppState.account);
             Renderer.renderTaskList();
         });
     }
@@ -48,6 +49,7 @@ export default class EventBoard {
 
         taskEditButtonNode.addEventListener('click', e => {
             AppState.tasksInEditMode.push(task.name);
+            Storage.setAccount(AppState.account);
             Renderer.renderTaskList();
         });
     }
@@ -57,6 +59,7 @@ export default class EventBoard {
 
         taskDeleteButtonNode.addEventListener('click', e => {
             AppState.projectList.removeTask(task.name);
+            Storage.setAccount(AppState.account);
             Renderer.renderProjectList();
             Renderer.renderTaskList();
         });
@@ -75,7 +78,7 @@ export default class EventBoard {
             let project = AppState.projectList.getProject(taskProjectName);
 
             if (project === null) {
-                project = new Project(taskProjectName);
+                project = new Project(taskProjectName, null);
             }
             project.addTask(task);
             AppState.projectList.addProject(project);
@@ -87,7 +90,7 @@ export default class EventBoard {
             if (addMode) {
                 AppState.taskAddOpen = false;
             }
-
+            Storage.setAccount(AppState.account);
             Renderer.renderTaskList();
             Renderer.renderProjectList();
         });
@@ -106,6 +109,7 @@ export default class EventBoard {
                 AppState.taskAddOpen = false;
             }
 
+            Storage.setAccount(AppState.account);
             Renderer.renderTaskList();
         });
     }
@@ -119,6 +123,7 @@ export default class EventBoard {
             } else if (AppState.taskDateOrder === 'asc') {
                 AppState.taskDateOrder = 'desc';
             }
+            Storage.setAccount(AppState.account);
             dateArea.innerHTML = UI.dateAreaInteriorUI(AppState.taskDateOrder);
             Renderer.renderTaskList();
         });
@@ -131,9 +136,7 @@ export default class EventBoard {
         const loginButtonNode = loginAreaNode.querySelectorAll('.login-buttons button:first-of-type')[0];
 
         loginButtonNode.addEventListener('click', e => {
-            let account = Storage.getAccount(emailInputNode.value, passwordInputNode.value);
-            if (account) {
-                AppState.account = account;
+            if (Storage.getAccount(emailInputNode.value, passwordInputNode.value)) {
                 Controller.loadMainPage();
             }
         });
@@ -160,11 +163,14 @@ export default class EventBoard {
             if (emailInputNode.value !== '' && passwordInputNode.value !== '' &&
                 passwordInputNode.value === confirmPasswordInputNode.value) {
 
-                AppState.account = new Account(
+                let account = new Account(
                     emailInputNode.value,
                     passwordInputNode.value,
                     yourNameInputNode.value
                 );
+
+                Storage.createAccount(account);
+                Controller.loadMainPage();
             }
         });
     }

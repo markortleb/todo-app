@@ -110,7 +110,7 @@ export default class UI {
                             <span>All Projects</span>
                         </div>
                         <div class="date-area">
-                            ${this.dateAreaInteriorUI('asc')}
+                            ${this.dateAreaInteriorUI(AppState.taskDateOrder)}
                         </div>
                     </div>
                     <ol>
@@ -140,6 +140,33 @@ export default class UI {
                     <img src="${this.#appEditIconImg.src}" alt="">
                     <img src="${this.#trashCanIconImg.src}" alt="">
                 </div>
+            </li>
+        `;
+    }
+
+    static taskExpandedUI(index, taskName, dueDate,  description, projectName) {
+        return `
+            <li class="task-expanded-mode">
+                <div class="task-expanded-mode-top">
+                    <div class="title-area">
+                        <input type="checkbox" id="item${index}">
+                        <label for="item${index}">${taskName}</label>
+                    </div>
+                    <div class="date-area">
+                        <span>${dueDate}</span>
+                    </div>
+                    <div class="control-area">
+                        <img src="${this.#appEditIconImg.src}" alt="">
+                        <img src="${this.#trashCanIconImg.src}" alt="">
+                    </div>
+                </div>
+                <div class="task-expanded-mode-bottom">
+                    <div class="task-expanded-bottom-container">
+                        <span class="task-expanded-description">${description}</span>
+                        <span class="task-expanded-project">${projectName}</span>
+                    </div>
+                </div>
+
             </li>
         `;
     }

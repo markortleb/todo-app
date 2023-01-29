@@ -1,26 +1,56 @@
 import Account from "./Account";
+import AppState from "./AppState";
+import { MD5 } from "md5-js-tools";
 
 export default class Storage {
 
-    static putAccount(account){
-        localStorage.setItem("accountName", account.name);
-        localStorage.setItem("accountEmail", account.email);
-        localStorage.setItem("accountPassword", account.password);
+    static generateAccountKey(email, password) {
+        return MD5.generate(email + password);
+    }
+
+    static createAccount(account) {
+        if (!this.accountExists(account.email, account.password)) {
+            AppState.initAppState(account);
+            this.setAccount(account);
+        }
+    }
+
+    static setAccount(account) {
+        localStorage.setItem(
+            this.generateAccountKey(account.email, account.password),
+            AppState.stringify()
+        );
+    }
+
+    static accountExists(accountEmail, accountPassword) {
+        let exists = true;
+        const appStateString = localStorage.getItem(
+            this.generateAccountKey(accountEmail, accountPassword)
+        );
+
+        if (appStateString === null) {
+            exists = false;
+        }
+
+        return false;
     }
 
     static getAccount(accountEmail, accountPassword) {
-        let account = null;
+        let success = true;
+        const appStateString = localStorage.getItem(
+            this.generateAccountKey(accountEmail, accountPassword)
+        );
 
-        if (accountEmail === localStorage.getItem("accountEmail")
-            && accountPassword === localStorage.getItem("accountPassword")) {
-            account = new Account(
-                accountEmail,
-                accountPassword,
-                localStorage.getItem("accountName")
-            );
+        if (appStateString === null) {
+            success = false;
+        } else {
+            AppState.loadFromString(appStateString);
         }
 
-        return account;
+        return success;
     }
+
+
+
 
 }

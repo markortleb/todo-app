@@ -7,7 +7,6 @@ import AppState from "./AppState";
 export default class Controller {
 
     static init() {
-        AppState.initState();
         UI.initImages();
         this.loadLoginPage();
     }

@@ -1,12 +1,33 @@
-
-
+import Task from "./Task";
 
 
 export default class Project {
 
-    constructor(name) {
+    constructor(name, currentState) {
         this.name = name;
-        this.taskList = [];
+
+        if (currentState === null) {
+            this.taskList = [];
+        } else {
+            this.taskList = this.loadFromCurrentState(currentState);
+        }
+    }
+
+    loadFromCurrentState(currentState) {
+        let list = [];
+
+        for (let i = 0; i < currentState.taskList.length; i++) {
+            list.push(
+                new Task(
+                    currentState.taskList[i].name,
+                    currentState.taskList[i].description,
+                    currentState.taskList[i].dueDate,
+                    currentState.taskList[i].projectName,
+                )
+            );
+        }
+
+        return list;
     }
 
     getTaskIndex(taskName) {
