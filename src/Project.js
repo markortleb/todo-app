@@ -5,8 +5,8 @@ export default class Project {
 
     constructor(name, currentState) {
         this.name = name;
-
-        if (currentState === null) {
+        console.log(currentState);
+        if (currentState === null || currentState === undefined) {
             this.taskList = [];
         } else {
             this.taskList = this.loadFromCurrentState(currentState);
