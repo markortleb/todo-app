@@ -8,7 +8,8 @@
     "watch": "webpack --watch",
     "start": "webpack server --open",
     "build": "webpack",
-    "host": "webpack serve --host=localhost --port=8005"
+    "host-dev": "webpack serve --host=localhost --port=8002",
+    "host-prod": "webpack serve --host=0.0.0.0 --port=80"
   },
   "author": "",
   "license": "ISC",
